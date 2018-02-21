@@ -1,0 +1,8 @@
+package: github.com/beinan/graphql_go_boilerplate
+import:
+- package: github.com/neelance/graphql-go
+  subpackages:
+  - relay
+- package: golang.org/x/crypto
+  subpackages:
+  - bcrypt

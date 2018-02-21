@@ -1,0 +1,34 @@
+hash: 008dc57367d80afffe80fd8ee473fc112a859bb47336b4f00cdc3f12bc9251ea
+updated: 2018-02-21T15:34:35.027752276-08:00
+imports:
+- name: github.com/neelance/graphql-go
+  version: b46637030579abd312c5eea21d36845b6e9e7ca4
+  subpackages:
+  - errors
+  - internal/common
+  - internal/exec
+  - internal/exec/packer
+  - internal/exec/resolvable
+  - internal/exec/selected
+  - internal/query
+  - internal/schema
+  - internal/validation
+  - introspection
+  - log
+  - relay
+  - trace
+- name: github.com/opentracing/opentracing-go
+  version: 3999fca714c888484b78cb78d68cd49afc9eca7d
+  subpackages:
+  - ext
+  - log
+- name: golang.org/x/crypto
+  version: 432090b8f568c018896cd8a0fb0345872bbac6ce
+  subpackages:
+  - bcrypt
+  - blowfish
+- name: golang.org/x/net
+  version: cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb
+  subpackages:
+  - context
+testImports: []
