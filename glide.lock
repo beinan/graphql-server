@@ -1,5 +1,5 @@
-hash: 008dc57367d80afffe80fd8ee473fc112a859bb47336b4f00cdc3f12bc9251ea
-updated: 2018-02-21T15:34:35.027752276-08:00
+hash: 3be86e95f02772a3ce2507f147cc5c968620c5876ee2e811d7f8f4dc0298920d
+updated: 2018-02-21T23:23:01.5676381-08:00
 imports:
 - name: github.com/neelance/graphql-go
   version: b46637030579abd312c5eea21d36845b6e9e7ca4
@@ -31,4 +31,6 @@ imports:
   version: cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb
   subpackages:
   - context
+- name: gopkg.in/nicksrandall/dataloader.v5
+  version: 78139374585c29dcb97b8f33089ed11959e4be59
 testImports: []

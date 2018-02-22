@@ -6,3 +6,5 @@ import:
 - package: golang.org/x/crypto
   subpackages:
   - bcrypt
+- package: gopkg.in/nicksrandall/dataloader.v5
+  version: ~5.0.0
