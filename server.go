@@ -6,8 +6,8 @@ import (
 	_ "net/http/pprof"
 
 	"github.com/neelance/graphql-go"
-	"github.com/neelance/graphql-go/relay"
 
+	"github.com/beinan/graphql_go_boilerplate/handler"
 	"github.com/beinan/graphql_go_boilerplate/schema"
 )
 
@@ -22,9 +22,9 @@ func main() {
 		w.Write(page)
 	}))
 
-	http.Handle("/query", &relay.Handler{Schema: schema})
+	http.Handle("/query", &handler.Handler{Schema: schema})
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8888", nil))
 }
 
 var page = []byte(`
