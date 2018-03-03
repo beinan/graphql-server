@@ -1,8 +1,8 @@
-hash: 3be86e95f02772a3ce2507f147cc5c968620c5876ee2e811d7f8f4dc0298920d
-updated: 2018-02-21T23:23:01.5676381-08:00
+hash: 2c7d1f0a8fca27e7e14fc07ace5398ee8b6bdec6ffae36b70d7984fa271ed7e7
+updated: 2018-03-02T11:31:32.0186755-08:00
 imports:
-- name: github.com/neelance/graphql-go
-  version: b46637030579abd312c5eea21d36845b6e9e7ca4
+- name: github.com/graph-gophers/graphql-go
+  version: ca8d434eaf2929b44fc220ffae034b744b1085ba
   subpackages:
   - errors
   - internal/common
@@ -15,22 +15,37 @@ imports:
   - internal/validation
   - introspection
   - log
-  - relay
   - trace
+- name: github.com/nicksrandall/dataloader
+  version: dd4c637b5203dd48d93a61b105b2f2ec6fb7107a
 - name: github.com/opentracing/opentracing-go
   version: 3999fca714c888484b78cb78d68cd49afc9eca7d
   subpackages:
   - ext
   - log
+- name: go.uber.org/atomic
+  version: 8474b86a5a6f79c443ce4b2992817ff32cf208b8
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
+- name: go.uber.org/zap
+  version: 35aad584952c3e7020db7b839f6b102de6271f89
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
 - name: golang.org/x/crypto
-  version: 432090b8f568c018896cd8a0fb0345872bbac6ce
+  version: 91a49db82a88618983a78a06c1cbd4e00ab749ab
   subpackages:
   - bcrypt
   - blowfish
 - name: golang.org/x/net
-  version: cbe0f9307d0156177f9dd5dc85da1a31abc5f2fb
+  version: 22ae77b79946ea320088417e4d50825671d82d57
   subpackages:
   - context
+- name: gopkg.in/mgo.v2
+  version: 3f83fa5005286a7fe593b055f0d7771a7dce4655
 - name: gopkg.in/nicksrandall/dataloader.v5
   version: 78139374585c29dcb97b8f33089ed11959e4be59
 testImports: []

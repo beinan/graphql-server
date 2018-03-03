@@ -1,6 +1,6 @@
 package: github.com/beinan/graphql_go_boilerplate
 import:
-- package: github.com/neelance/graphql-go
+- package: github.com/graph-gophers/graphql-go
   subpackages:
   - relay
 - package: golang.org/x/crypto
@@ -8,3 +8,6 @@ import:
   - bcrypt
 - package: gopkg.in/nicksrandall/dataloader.v5
   version: ~5.0.0
+- package: gopkg.in/mgo.v2
+- package: go.uber.org/zap
+  version: ^1.7.1

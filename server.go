@@ -1,30 +1,32 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	_ "net/http/pprof"
 
-	"github.com/neelance/graphql-go"
+	"github.com/graph-gophers/graphql-go"
 
 	"github.com/beinan/graphql_go_boilerplate/handler"
 	"github.com/beinan/graphql_go_boilerplate/schema"
+	"github.com/beinan/graphql_go_boilerplate/utils"
 )
 
-var schema *graphql.Schema
-
-func init() {
-	schema = graphql.MustParseSchema(gochat.Schema, &gochat.Resolver{})
-}
+var graphql_schema *graphql.Schema = graphql.MustParseSchema(
+	schema.Schema,
+	&schema.Resolver{},
+)
 
 func main() {
+	logger := utils.NewLogger()
+	logger.Infof("Starting graphql server on %s", ":8888")
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write(page)
 	}))
 
-	http.Handle("/query", &handler.Handler{Schema: schema})
+	
+	http.Handle("/query", handler.Chain(handler.HandleGraphQL(graphql_schema, logger)))
 
-	log.Fatal(http.ListenAndServe(":8888", nil))
+	logger.Info(http.ListenAndServe(":8888", nil))
 }
 
 var page = []byte(`
