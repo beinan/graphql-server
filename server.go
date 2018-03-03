@@ -6,9 +6,9 @@ import (
 
 	"github.com/graph-gophers/graphql-go"
 
-	"github.com/beinan/graphql_go_boilerplate/handler"
-	"github.com/beinan/graphql_go_boilerplate/schema"
-	"github.com/beinan/graphql_go_boilerplate/utils"
+	"github.com/beinan/graphql-server/handler"
+	"github.com/beinan/graphql-server/schema"
+	"github.com/beinan/graphql-server/utils"
 )
 
 var graphql_schema *graphql.Schema = graphql.MustParseSchema(

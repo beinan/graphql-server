@@ -6,7 +6,7 @@ import (
 
 	graphql "github.com/graph-gophers/graphql-go"
 	//"github.com/beinan/graphql_go_boilerplate/loader"
-	"github.com/beinan/graphql_go_boilerplate/utils"
+	"github.com/beinan/graphql-server/utils"
 )
 
 

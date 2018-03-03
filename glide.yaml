@@ -1,4 +1,4 @@
-package: github.com/beinan/graphql_go_boilerplate
+package: github.com/beinan/graphql-server
 import:
 - package: github.com/graph-gophers/graphql-go
   subpackages:
