@@ -6,25 +6,36 @@ import (
 
 	"github.com/graph-gophers/graphql-go"
 
+	"github.com/beinan/graphql-server/database/mongodb"
 	"github.com/beinan/graphql-server/handler"
+	"github.com/beinan/graphql-server/loader"
+	"github.com/beinan/graphql-server/resolver"
 	"github.com/beinan/graphql-server/schema"
 	"github.com/beinan/graphql-server/utils"
 )
 
+var logger = utils.NewLogger()
+	
+var db = mongodb.NewDB(logger)
+	
 var graphql_schema *graphql.Schema = graphql.MustParseSchema(
 	schema.Schema,
-	&schema.Resolver{},
+	&resolver.Resolver{db},
 )
 
 func main() {
-	logger := utils.NewLogger()
 	logger.Infof("Starting graphql server on %s", ":8888")
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write(page)
 	}))
-
 	
-	http.Handle("/query", handler.Chain(handler.HandleGraphQL(graphql_schema, logger)))
+	
+	latencyStat := handler.LatencyStat(logger)
+	dbHandler := handler.DatabaseHandler(db, logger)
+	loaders := loader.NewLoader(db, logger)
+	attachLoader := handler.AttachLoader(loaders)
+	graphqlHandler := handler.HandleGraphQL(graphql_schema, logger)
+	http.Handle("/query", handler.Chain(latencyStat, dbHandler, attachLoader,graphqlHandler))
 
 	logger.Info(http.ListenAndServe(":8888", nil))
 }
