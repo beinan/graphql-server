@@ -15,9 +15,9 @@ import (
 )
 
 var logger = utils.NewLogger()
-	
+
 var db = mongodb.NewDB(logger)
-	
+
 var graphql_schema *graphql.Schema = graphql.MustParseSchema(
 	schema.Schema,
 	&resolver.Resolver{db},
@@ -28,14 +28,13 @@ func main() {
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write(page)
 	}))
-	
-	
+
 	latencyStat := handler.LatencyStat(logger)
 	dbHandler := handler.DatabaseHandler(db, logger)
 	loaders := loader.NewLoader(db, logger)
 	attachLoader := handler.AttachLoader(loaders)
 	graphqlHandler := handler.HandleGraphQL(graphql_schema, logger)
-	http.Handle("/query", handler.Chain(latencyStat, dbHandler, attachLoader,graphqlHandler))
+	http.Handle("/query", handler.Chain(latencyStat, dbHandler, attachLoader, graphqlHandler))
 
 	logger.Info(http.ListenAndServe(":8888", nil))
 }

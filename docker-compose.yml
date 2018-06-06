@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  graphql:
+    build: .
+    ports:
+     - "8888:8888"
+    volumes:
+     - .:/go/src/github.com/beinan/graphql-server
+    depends_on:
+     - mongo
+     - redis
+  redis:
+    image: "redis:alpine"
+  mongo:
+    image: mongo

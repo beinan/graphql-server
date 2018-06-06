@@ -25,17 +25,6 @@ func (r *Resolver) GetUser(ctx context.Context, args *struct {
 	return &userResolver{user}, nil
 }
 
-func (r *Resolver) SignUp(ctx context.Context, args *struct {
-	Input *signUpInput
-}) (*userResolver, error) {
-	err := r.DB.UserDAO().CreateUser(ctx, string(args.Input.Id), args.Input.Password)
-	user := &model.User{
-		Id:     args.Input.Id,
-		Name:   "",
-		Gender: "MALE",
-	}	
-	return &userResolver{user}, err
-}
 
 type userResolver struct {
 	user *model.User
@@ -51,9 +40,4 @@ func (r *userResolver) Name() string {
 
 func (r *userResolver) Gender() *string {
 	return &r.user.Gender
-}
-
-type signUpInput struct {
-	Id       graphql.ID
-	Password string
 }

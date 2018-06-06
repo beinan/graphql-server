@@ -18,5 +18,6 @@ type DB interface {
 type UserDAO interface {
 	GetUserByIds(ctx context.Context, ids []string) ([]model.User, error)
 	CreateUser(ctx context.Context, id string, password string)  error
+	GetHashedPassword(ctx context.Context, id string) (string, error)
 }
 

@@ -1,6 +1,8 @@
-hash: 2c7d1f0a8fca27e7e14fc07ace5398ee8b6bdec6ffae36b70d7984fa271ed7e7
-updated: 2018-03-02T11:31:32.0186755-08:00
+hash: 875e6185cc86b013a333834cdb1fa4b75e02078afeb4cc670be799c6ebb6fb9e
+updated: 2018-03-07T15:06:04.2008122-08:00
 imports:
+- name: github.com/dgrijalva/jwt-go
+  version: dbeaa9332f19a944acb5736b4456cfcc02140e29
 - name: github.com/graph-gophers/graphql-go
   version: ca8d434eaf2929b44fc220ffae034b744b1085ba
   subpackages:
@@ -15,6 +17,7 @@ imports:
   - internal/validation
   - introspection
   - log
+  - relay
   - trace
 - name: github.com/nicksrandall/dataloader
   version: dd4c637b5203dd48d93a61b105b2f2ec6fb7107a
@@ -46,6 +49,11 @@ imports:
   - context
 - name: gopkg.in/mgo.v2
   version: 3f83fa5005286a7fe593b055f0d7771a7dce4655
+  subpackages:
+  - bson
+  - internal/json
+  - internal/sasl
+  - internal/scram
 - name: gopkg.in/nicksrandall/dataloader.v5
   version: 78139374585c29dcb97b8f33089ed11959e4be59
 testImports: []

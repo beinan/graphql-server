@@ -16,3 +16,4 @@ func LatencyStat(logger utils.Logger) Filter {
 		})
 	}
 }
+

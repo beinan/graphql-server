@@ -1,8 +1,8 @@
 package mongodb
 
-import(
+import (
 	"context"
-	
+
 	mgo "gopkg.in/mgo.v2"
 
 	"github.com/beinan/graphql-server/database"
@@ -14,9 +14,9 @@ const (
 )
 
 func NewDB(logger utils.Logger) database.DB {
-	uri, dbname := "localhost", "devdb"
-	logger.Infof("Dialing mongodb: %v", uri)
-	session,err := mgo.Dial(uri)
+	uri, dbname := "mongo", "devdb"
+	logger.Infof("Dialing mongodb: %s", uri)
+	session, err := mgo.Dial(uri)
 	if err != nil {
 		logger.Info(err)
 	}
@@ -24,9 +24,9 @@ func NewDB(logger utils.Logger) database.DB {
 }
 
 type MongoDB struct {
-	uri string
-	dbname string
-	logger utils.Logger
+	uri     string
+	dbname  string
+	logger  utils.Logger
 	session *mgo.Session //original session
 }
 
@@ -48,12 +48,10 @@ func (db *MongoDB) Attach(ctx context.Context) context.Context {
 }
 
 //Close the mongodb session attached in the context
-func (db *MongoDB ) Close(ctx context.Context) {
+func (db *MongoDB) Close(ctx context.Context) {
 	getSession(ctx).Close()
 }
 
-func getSession(ctx context.Context) *mgo.Session{
+func getSession(ctx context.Context) *mgo.Session {
 	return ctx.Value(mongoDBSessionKey).(*mgo.Session)
 }
-
-

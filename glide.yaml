@@ -11,3 +11,5 @@ import:
 - package: gopkg.in/mgo.v2
 - package: go.uber.org/zap
   version: ^1.7.1
+- package: github.com/dgrijalva/jwt-go
+  version: ^3.1.0

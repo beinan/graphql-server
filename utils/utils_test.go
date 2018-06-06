@@ -2,6 +2,21 @@ package utils
 
 import "testing"
 
+func TestJWTGenerationAndParse(t * testing.T) {
+	token, err := GenerateJWT("beinan")
+	if err != nil {
+		t.Errorf("Generate token failed: %v", err)
+	}
+	t.Log("Got token:", token)
+	user, parseErr := ParseJWT(token)
+	if parseErr != nil {
+		t.Errorf("Parse token error: %v", parseErr)
+	}
+	if user != "beinan" {
+		t.Errorf("Incorrect parsing result User id: %v", user)
+	}
+}
+
 func TestPasswordHashAndCheck(t *testing.T) {
 	hash, err := HashPassword("password")
 

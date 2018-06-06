@@ -27,6 +27,16 @@ func (dao *UserDAO) getCollection(ctx context.Context) *mgo.Collection {
 	return getSession(ctx).DB(dao.db.dbname).C("users")
 }
 
+func (dao *UserDAO) GetHashedPassword(ctx context.Context, id string) (string, error) {
+	col := dao.getCollection(ctx)
+	var record User
+	err := col.Find(bson.M{"_id": id}).One(&record)
+	if err != nil {
+		return "", err
+	}
+	return record.Password, nil
+}
+
 func (dao *UserDAO) GetUserByIds(ctx context.Context, ids []string) ([]model.User, error) {
 	col := dao.getCollection(ctx)
 	var records []User //records in db
