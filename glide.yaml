@@ -14,3 +14,5 @@ import:
 - package: github.com/dgrijalva/jwt-go
   version: ^3.1.0
 - package: github.com/beinan/fastid
+- package: github.com/go-redis/redis
+  version: ^6.12.0

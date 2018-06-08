@@ -1,10 +1,12 @@
-hash: e5c15b4bb48b8f7f46f80bc5f8514d1e0cbc92844b7f80eccdde9d25003c04b0
-updated: 2018-06-07T23:39:36.758883242-07:00
+hash: 34ffb9f67ce37571efc8bf6e3ca71a57fcced4cf067e16113f05c2df978912e0
+updated: 2018-06-07T23:54:26.23513659-07:00
 imports:
 - name: github.com/beinan/fastid
   version: 0a5d905dc99f676e45cd0def0b035b0c951fa019
 - name: github.com/dgrijalva/jwt-go
   version: 06ea1031745cb8b3dab3f6a236daf2b0aa468b7e
+- name: github.com/go-redis/redis
+  version: 83fb42932f6145ce52df09860384a4653d2d332a
 - name: github.com/graph-gophers/graphql-go
   version: ca8d434eaf2929b44fc220ffae034b744b1085ba
   subpackages:
