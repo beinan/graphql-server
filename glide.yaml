@@ -13,3 +13,4 @@ import:
   version: ^1.7.1
 - package: github.com/dgrijalva/jwt-go
   version: ^3.1.0
+- package: github.com/beinan/fastid

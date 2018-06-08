@@ -4,7 +4,10 @@ services:
   graphql:
     build: .
     ports:
-     - "8888:8888"
+     - "8888"
+    environment:
+     - SERVICE_PORTS=8888
+     - AGENT_NUMBER
     volumes:
      - .:/go/src/github.com/beinan/graphql-server
     depends_on:
@@ -14,3 +17,11 @@ services:
     image: "redis:alpine"
   mongo:
     image: mongo
+  lb:
+    image: 'dockercloud/haproxy:latest'
+    links:
+     - graphql
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+     - '8888:80'

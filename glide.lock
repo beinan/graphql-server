@@ -1,8 +1,10 @@
-hash: 875e6185cc86b013a333834cdb1fa4b75e02078afeb4cc670be799c6ebb6fb9e
-updated: 2018-03-07T15:06:04.2008122-08:00
+hash: e5c15b4bb48b8f7f46f80bc5f8514d1e0cbc92844b7f80eccdde9d25003c04b0
+updated: 2018-06-07T23:39:36.758883242-07:00
 imports:
+- name: github.com/beinan/fastid
+  version: 0a5d905dc99f676e45cd0def0b035b0c951fa019
 - name: github.com/dgrijalva/jwt-go
-  version: dbeaa9332f19a944acb5736b4456cfcc02140e29
+  version: 06ea1031745cb8b3dab3f6a236daf2b0aa468b7e
 - name: github.com/graph-gophers/graphql-go
   version: ca8d434eaf2929b44fc220ffae034b744b1085ba
   subpackages:
@@ -27,11 +29,11 @@ imports:
   - ext
   - log
 - name: go.uber.org/atomic
-  version: 8474b86a5a6f79c443ce4b2992817ff32cf208b8
+  version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
 - name: go.uber.org/multierr
   version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
 - name: go.uber.org/zap
-  version: 35aad584952c3e7020db7b839f6b102de6271f89
+  version: eeedf312bc6c57391d84767a4cd413f02a917974
   subpackages:
   - buffer
   - internal/bufferpool
