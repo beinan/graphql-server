@@ -20,7 +20,7 @@ var db = mongodb.NewDB(logger)
 
 var graphql_schema *graphql.Schema = graphql.MustParseSchema(
 	schema.Schema,
-	&resolver.Resolver{db},
+	&resolver.Resolver{},
 )
 
 func main() {

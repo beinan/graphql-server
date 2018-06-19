@@ -1,9 +1,8 @@
 package utils
 
 import (
-	"log"
-
 	"go.uber.org/zap"
+	"log"
 )
 
 type Logger interface {
@@ -15,9 +14,17 @@ type Logger interface {
 	Infow(msg string, keysAndValues ...interface{})
 }
 
-func NewLogger() Logger{
-	//TODO: add a production logger created by zap.NewProduction()
-	logger, err := zap.NewDevelopment()
+var DefaultLogger = NewLogger()
+
+func NewLogger() Logger {
+	var logger *zap.Logger
+	var err error
+	if IsProd() {
+		logger, err = zap.NewProduction()
+	} else {
+		logger, err = zap.NewDevelopment()
+	}
+
 	if err != nil {
 		log.Fatalf("can't initialize zap logger: %v", err)
 	}

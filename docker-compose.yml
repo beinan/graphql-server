@@ -7,7 +7,7 @@ services:
      - "8888"
     environment:
      - SERVICE_PORTS=8888
-     - AGENT_NUMBER
+     - APP_ENV
     volumes:
      - .:/go/src/github.com/beinan/graphql-server
     depends_on:
@@ -17,6 +17,8 @@ services:
     image: "redis:alpine"
   mongo:
     image: mongo
+    volumes:
+     - 'mongodb-data:/data/db'
   lb:
     image: 'dockercloud/haproxy:latest'
     links:
@@ -24,4 +26,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-     - '8888:80'
+     - '8080:80'
+
+volumes:
+  mongodb-data:
