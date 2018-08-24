@@ -2,7 +2,9 @@ package store
 
 import (
 	"context"
+
 	"github.com/beinan/graphql-server/downstreams"
+	"github.com/beinan/graphql-server/utils"
 	//	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -10,6 +12,8 @@ import (
 type mongoStore struct {
 	Client *downstreams.MongoDB
 }
+
+var logger = utils.DefaultLogger
 
 func (m *mongoStore) GetEnitytByID(
 	ctx context.Context,
@@ -19,6 +23,8 @@ func (m *mongoStore) GetEnitytByID(
 ) error {
 	col := m.Client.GetCollection(ctx, entityType.Name)
 	err := col.Find(bson.M{"_id": id}).One(result)
+	logger.Debugf("Get entity %v by id(%v) is result %v and err: %v",
+		entityType.Name, id, result, err)
 	return err
 }
 

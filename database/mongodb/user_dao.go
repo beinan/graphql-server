@@ -1,13 +1,11 @@
 package mongodb
 
-import(
+import (
 	"context"
-
-	"github.com/graph-gophers/graphql-go"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	
+
 	"github.com/beinan/graphql-server/model"
 )
 
@@ -17,10 +15,10 @@ type UserDAO struct {
 
 //User model for mongodb
 type User struct {
-	Id string `bson:"_id"`
-	Password string `bson:"password"`  //hashed password
-	Name string `bson:"name"`
-	Gender string `bson:"gender"`
+	Id       string `bson:"_id"`
+	Password string `bson:"password"` //hashed password
+	Name     string `bson:"name"`
+	Gender   string `bson:"gender"`
 }
 
 func (dao *UserDAO) getCollection(ctx context.Context) *mgo.Collection {
@@ -47,18 +45,18 @@ func (dao *UserDAO) GetUserByIds(ctx context.Context, ids []string) ([]model.Use
 	}
 	var results []model.User = make([]model.User, len(records))
 	//convert db model into graphql model
-	for i,record := range records {
+	for i, record := range records {
 		results[i] = model.User{
-			Id: graphql.ID(record.Id),
-			Name: record.Name,
+			Id:     record.Id,
+			Name:   record.Name,
 			Gender: record.Gender,
 		}
 	}
 	dao.db.logger.Debugw("GetUserByIds:", "ids", ids, "results", results)
-	return results,nil
+	return results, nil
 }
 
-func (dao *UserDAO) CreateUser(ctx context.Context, id string, password string)  error {
+func (dao *UserDAO) CreateUser(ctx context.Context, id string, password string) error {
 	col := dao.getCollection(ctx)
 	dao.db.logger.Debugf("Creating  user: %v", id)
 	return col.Insert(User{id, password, "", ""})

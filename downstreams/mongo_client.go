@@ -2,6 +2,7 @@ package downstreams
 
 import (
 	"context"
+
 	mgo "gopkg.in/mgo.v2"
 
 	"github.com/beinan/graphql-server/utils"
@@ -13,10 +14,7 @@ const (
 
 var logger = utils.DefaultLogger
 
-//using dbname graphql_devel or graphql_prod
-var MongoClient = newClient("graphql_" + utils.Env)
-
-func newClient(dbname string) *MongoDB {
+func NewMongoClient(dbname string) *MongoDB {
 	uri, dbname := "mongo", dbname
 	logger.Infof("Dialing mongodb: %s", uri)
 	session, err := mgo.Dial(uri)

@@ -4,7 +4,7 @@ import (
 	"net/http"
 )
 
-type Filter func(http.Handler) http.Handler
+type Filter func(next http.Handler) http.Handler
 
 func Chain(chain ...Filter) http.Handler {
 	if len(chain) == 1 {

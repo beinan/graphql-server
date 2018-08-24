@@ -11,6 +11,8 @@ import (
 	"github.com/beinan/graphql-server/loader"
 	"github.com/beinan/graphql-server/resolver"
 	"github.com/beinan/graphql-server/schema"
+	"github.com/beinan/graphql-server/service"
+	"github.com/beinan/graphql-server/store"
 	"github.com/beinan/graphql-server/utils"
 )
 
@@ -18,9 +20,29 @@ var logger = utils.NewLogger()
 
 var db = mongodb.NewDB(logger)
 
+var mongoStore = store.MkMongoStore()
+var userService = &service.UserDAO{
+	Reader: mongoStore,
+	Writer: mongoStore,
+}
+var authService = &service.AuthDAO{
+	Reader: mongoStore,
+	Writer: mongoStore,
+}
+var friendService = &service.FriendRelationDAO{
+	Reader: store.RedisStore,
+	Writer: store.RedisStore,
+}
+
+var services = &service.Services{
+	UserService:           userService,
+	AuthService:           authService,
+	FriendRelationService: friendService,
+}
+
 var graphql_schema *graphql.Schema = graphql.MustParseSchema(
 	schema.Schema,
-	&resolver.Resolver{},
+	resolver.MkRootResolver(services),
 )
 
 func main() {
@@ -31,10 +53,11 @@ func main() {
 
 	latencyStat := handler.LatencyStat(logger)
 	dbHandler := handler.DatabaseHandler(db, logger)
+	authFilter := handler.AuthFilter(logger)
 	loaders := loader.NewLoader(db, logger)
 	attachLoader := handler.AttachLoader(loaders)
 	graphqlHandler := handler.HandleGraphQL(graphql_schema, logger)
-	http.Handle("/query", handler.Chain(latencyStat, dbHandler, attachLoader, graphqlHandler))
+	http.Handle("/query", handler.Chain(latencyStat, dbHandler, authFilter, attachLoader, graphqlHandler))
 
 	logger.Info(http.ListenAndServe(":8888", nil))
 }

@@ -1,40 +1,20 @@
 package store
 
 import (
-	"context"
 	"github.com/beinan/graphql-server/downstreams"
+	"github.com/beinan/graphql-server/model"
+	"github.com/beinan/graphql-server/utils"
 )
 
-var (
-	UserType = EntityType{"user", "u"}
-	AuthType = EntityType{"authdata", "auth"}
+type ID = model.ID
+type IDWithCursor = model.IDWithCursor
+type EntityType = model.EntityType
+type Relationship = model.Relationship
 
-	FriendsRelation = Relationship{UserType, "friends"}
-)
-
-type EntityType struct {
-	Name      string //for collection name
-	ShortName string //for redis key
+func MkMongoStore() *mongoStore {
+	//using dbname graphql_devel or graphql_prod
+	mongoClient := downstreams.NewMongoClient("graphql_" + utils.Env)
+	return &mongoStore{Client: mongoClient}
 }
 
-type ID string
-
-type Relationship struct {
-	fromEntity   EntityType
-	relationName string
-}
-
-var MongoStore = &mongoStore{Client: downstreams.MongoClient}
 var RedisStore = &redisStore{Client: downstreams.RedisClient}
-
-type DataReader interface {
-	GetEnitytByID(context.Context, EntityType, ID, *interface{}) error
-	GetEntitiesByIDs(context.Context, EntityType, []ID, *[]interface{}) error
-	GetRelation(context.Context, Relationship, ID, *[]ID) error
-}
-
-type DataWriter interface {
-	AddEntity(context.Context, EntityType, interface{}) error
-	UpdateEntity(context.Context, EntityType, interface{}) (interface{}, error)
-	AddRelation(context.Context, Relationship, ID, ID) error
-}

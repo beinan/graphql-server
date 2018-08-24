@@ -3,9 +3,10 @@ package store
 import (
 	"context"
 	"errors"
-	"github.com/go-redis/redis"
 	"strconv"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 type redisStore struct {
@@ -30,26 +31,24 @@ func (r *redisStore) GetRelation(
 	return results, err
 }
 
-type IDWithCursor struct {
-	Id     ID
-	Cursor string
-}
-
 func (r *redisStore) GetRelationWithCursor(
 	ctx context.Context,
 	relation Relationship,
 	id ID,
-	cursor *string,
+	cursor string,
 	limit int64,
-	isRev *bool) ([]IDWithCursor, error) {
+	isRev bool) ([]IDWithCursor, error) {
 	var cursorStr string
-	if cursor == nil {
+	if cursor == "" { //if cursor is Zero string
 		cursorStr = "-inf"
 	} else {
-		cursorStr = *cursor
+		cursorStr = cursor
 	}
 	strCmd := r.Client.ZRangeByScoreWithScores(relation.GenID(id), redis.ZRangeBy{
-		"(" + cursorStr, "+inf", 0, limit,
+		Min:    "(" + cursorStr,
+		Max:    "+inf",
+		Offset: 0,
+		Count:  limit,
 	})
 	strIDs, err := strCmd.Result()
 	if err != nil {
@@ -57,7 +56,11 @@ func (r *redisStore) GetRelationWithCursor(
 	}
 	results := make([]IDWithCursor, len(strIDs))
 	for i := range strIDs {
-		results[i] = IDWithCursor{ID(strIDs[i].Member.(string)), strconv.FormatFloat(strIDs[i].Score, 'f', 0, 64)}
+		results[i] = IDWithCursor{
+			Id: ID(strIDs[i].Member.(string)),
+			//format score (float value) into string
+			Cursor: strconv.FormatFloat(strIDs[i].Score, 'f', 0, 64),
+		}
 	}
 	return results, err
 }
@@ -68,7 +71,11 @@ func (r *redisStore) AddRelation(
 	fromId ID,
 	toId ID) error {
 	//do not update the existing records
-	intCmd := r.Client.ZAddNXCh(relation.GenID(fromId), redis.Z{score(), string(toId)})
+	intCmd := r.Client.ZAddNXCh(relation.GenID(fromId),
+		redis.Z{
+			Score:  score(),
+			Member: toId,
+		})
 	num, err := intCmd.Result()
 	if num == 0 && err == nil {
 		return errors.New("A friend with the same id has already been added.")
@@ -79,8 +86,4 @@ func (r *redisStore) AddRelation(
 //calculate score from time
 func score() float64 {
 	return float64(time.Now().UnixNano())
-}
-
-func (r *Relationship) GenID(fromId ID) string {
-	return r.fromEntity.ShortName + ":" + string(fromId) + ":" + r.relationName
 }

@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"go.uber.org/zap"
 	"log"
+
+	"go.uber.org/zap"
 )
 
 type Logger interface {
@@ -12,6 +13,9 @@ type Logger interface {
 	Info(args ...interface{})
 	Infof(template string, args ...interface{})
 	Infow(msg string, keysAndValues ...interface{})
+	Error(args ...interface{})
+	Errorf(template string, args ...interface{})
+	Errorw(msg string, keysAndValues ...interface{})
 }
 
 var DefaultLogger = NewLogger()

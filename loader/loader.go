@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	graphql "github.com/graph-gophers/graphql-go"
 	"github.com/nicksrandall/dataloader"
 
 	"github.com/beinan/graphql-server/database"
@@ -17,15 +16,16 @@ const (
 	UserDataLoaderKey = "user-data-loader-key"
 )
 
+type ID = model.ID
 
 //a manager class for all the data loaders
 type Loaders struct {
 	logger utils.Logger
-	db database.DB
+	db     database.DB
 }
 
 func NewLoader(db database.DB, logger utils.Logger) Loaders {
-	return Loaders{ logger, db }
+	return Loaders{logger, db}
 }
 
 func (l Loaders) Attach(ctx context.Context) context.Context {
@@ -53,36 +53,36 @@ func LoadUser(ctx context.Context, id string) (*model.User, error) {
 		return nil, loaderErr
 	}
 	trunk := loader.Load(ctx, dataloader.StringKey(id))
-	_, err:= trunk()
+	_, err := trunk()
 	if err != nil {
 		return nil, err
 	}
 	user := &model.User{
-		Id:     graphql.ID(id),
+		Id:     id,
 		Name:   "aaaa",
 		Gender: "MALE",
 	}
-	return user,nil;
+	return user, nil
 }
 
 func (l Loaders) userBatchFunc(ctx context.Context, keys dataloader.Keys) []*dataloader.Result {
 	var results []*dataloader.Result = make([]*dataloader.Result, len(keys))
 	stringKeys := extractStringKeys(keys)
 	records, err := l.db.UserDAO().GetUserByIds(ctx, stringKeys)
-	
+
 	if err != nil { //query failed, fill the error into each result
-		for i := range stringKeys{
+		for i := range stringKeys {
 			results[i] = &dataloader.Result{Data: nil, Error: err}
 		}
 		return results
 	}
-	
+
 	keyToRecordsIndex := make(map[string]int)
 	//create a map for key -> records
-	for i,record := range records {
+	for i, record := range records {
 		keyToRecordsIndex[string(record.Id)] = i
 	}
-	for i, key := range stringKeys{
+	for i, key := range stringKeys {
 		recordIndex, ok := keyToRecordsIndex[key]
 		if ok {
 			results[i] = &dataloader.Result{Data: records[recordIndex], Error: nil}
